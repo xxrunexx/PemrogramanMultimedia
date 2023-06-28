@@ -4,18 +4,18 @@
 <h6><?php echo $this->session->flashdata('error'); ?></h6>
 
 <div class="row">
-  <form action="<?php echo site_url('welcome/update/'.$post->id); ?>" method="post" enctype="multipart/form-data">
+  <form action="<?php echo site_url('welcome/update/'.$post->id); ?>" method="post" enctype="multipart/form-data"> <!-- Set Site_url menjadi welcome/create dengan method post -->
     <div class="row">
-      <div class="input-field col s12">
-          <input name="name" id="name" type="text" class="validate" value="<?php echo $post->name; ?>">
-          <label for="name">Item Name</label>
+      <div class="input-field col s12"> <!-- Input field untuk name -->
+          <input name="name" id="name" type="text" class="validate" value="<?php echo $post->name; ?>"> <!-- name yang diisi dengan inputan name dari form. Value akan menampilkan data sebelumnya -->
+          <label for="name">Item Name</label> <!-- Label untuk name -->
       </div>
       <div class="input-field col s12">
-        <textarea name="description" id="description" class="materialize-textarea"><?php echo $post->description; ?></textarea>
+        <textarea name="description" id="description" class="materialize-textarea"><?php echo $post->description; ?></textarea> <!-- description yang diisi dengan inputan description dari form. Value akan menampilkan data sebelumnya -->
         <label for="description">Description</label>
       </div>
       <div class="center col s12">
-         <img class="responsive-img" id="image" style="max-height:30vh;" src="<?php echo site_url('upload/post/'.$post->filename); ?>">
+         <img class="responsive-img" id="image" style="max-height:30vh;" src="<?php echo site_url('upload/post/'.$post->filename); ?>"> <!-- Menampilkan gambar sebelumnya -->
       </div>
       <div class="file-field input-field col s12">
         <div class="btn light-blue darken-4">
@@ -23,12 +23,12 @@
           <input name="image" type="file" id="file">
         </div>
         <div class="file-path-wrapper">
-          <input class="file-path validate" type="text" onchange="thumbnail();" name="file">
+          <input class="file-path validate" type="text" onchange="thumbnail();" name="file"> <!-- File path untuk image -->
         </div>
       </div>
     </div>
     <div class="col s12 center">
-      <button class="btn light-blue darken-4" type="submit">Submit</button>
+      <button class="btn light-blue darken-4" type="submit">Submit</button> <!-- Button submit untuk create -->
     </div>
   </form>
 </div>

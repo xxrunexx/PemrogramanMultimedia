@@ -12,7 +12,7 @@
 			</div>
 		</div>
 		<div class="row center">
-			<img src="<?= site_url('upload/post/'.$post->filename); ?>" alt="Post's Image" class="circle" width="100vw" height="100vh">
+			<img src="<?= site_url('upload/post/'.$post->filename); ?>" alt="Post's Image" width="50%" height="50%"> <!-- Menampilkan gambar & Set Size -->
 		</div>
 		<div class="row">
 			<p><?= $post->description; ?></p>

@@ -5,18 +5,18 @@
         <div class="container">
           <div class="row">
             <div class="col s12">
-              <h5 class="white-text">Sistem Multimedia</h5>
+              <h5 class="white-text">Demo App</h5>
               <blockquote>
-                <p class="grey-text text-lighten-4">Esse Est Percipi.</p>
+                <p class="grey-text text-lighten-4">Demo App</p>
               </blockquote>
             </div>
           </div>
         </div>
         <div class="footer-copyright">
           <div class="container">
-            <small>
+            <!-- <small>
               Copyright © <?= date("Y"); ?> Gunadarma University. All rights reserved.
-            </small>
+            </small> -->
           </div>
         </div>
       </footer>
