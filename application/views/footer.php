@@ -23,7 +23,7 @@
                     <div class="col-lg-4">
                         <h4 class="text-uppercase mb-4">About Us</h4>
                         <p class="lead mb-0">
-                            Harun Ar Rasyid, Reserved, Reserved & Reserved
+                            Harun, Hafiz, Rifki & Rio
                             <a href="http://startbootstrap.com">4IA12</a>
                             .
                         </p>

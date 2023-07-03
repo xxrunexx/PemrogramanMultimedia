@@ -58,7 +58,9 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('database');
+$autoload['libraries'] = array('database'); // Masukkan database ke dalam autoload
+// Secara default codeigniter sudah memuat library database
+// untuk menjaga program tetap ringan, maka library lainnya tidak dimuat secara otomatis.
 
 /*
 | -------------------------------------------------------------------

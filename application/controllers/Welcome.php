@@ -7,20 +7,20 @@ class Welcome extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('M_welcome', 'model');
+        $this->load->model('M_welcome', 'model'); // Load model M_welcome ke controller
         $this->load->helper('url');
         $this->load->library('session');
     }
     
-    public function index($id=False)
+    public function index($id=False) // Membuat session dengan default parameter False
     {
         if ($id===FALSE) {
-			$data['home_post'] = $this->model->read();
+			$data['home_post'] = $this->model->read(); // Memanggil fungsi read() untuk menampilkan semua data
 			$this->load->view('header');
 			$this->load->view('home', $data);
 			$this->load->view('footer');
-		} else {
-			$data['post'] = $this->model->read($id);
+		} else { // Jika kita memilih salah satu item
+			$data['post'] = $this->model->read($id); // Maka Memanggil fungsi read() untuk menampilkan data dari id yang dipilih tersebut
 			$this->load->view('header');
 			$this->load->view('post', $data);
 			$this->load->view('footer');
@@ -29,58 +29,55 @@ class Welcome extends CI_Controller
 
     public function create()
     {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
+        $this->load->helper('form'); // Memanggil helper form
+        $this->load->library('form_validation'); // Untuk Validasi Form
 
-        $this->form_validation->set_rules('name', 'Name', 'required|max_length[30]');
-        $this->form_validation->set_rules('description', 'Description', 'required');
+        $this->form_validation->set_rules('name', 'Name', 'required|max_length[30]'); // Validasi Nama required dan max 30 karakter
+        $this->form_validation->set_rules('description', 'Description', 'required'); // Validasi Description required
 
         if ($this->form_validation->run() === false) {
-            $this->load->view('header');
-            $this->load->view('create');
-            $this->load->view('footer');
+            $this->load->view('header'); // load header section
+            $this->load->view('create'); // load create section
+            $this->load->view('footer'); // load footer section
         } else {
-            $id = uniqid('item', true);
+            $id = uniqid('item', true); // generate id unique
 
-            $config['upload_path'] = 'upload/post';
-            $config['allowed_types'] = 'jpg|png|jpeg';
-            $config['max_size'] = '100000';
-            $config['file_ext_tolower'] = true;
-            $config['file_name'] = str_replace('.', '_', $id);
+            $config['upload_path'] = 'upload/post'; // Path untuk upload file
+            $config['allowed_types'] = 'jpg|png|jpeg'; // Format file yang diizinkan
+            $config['max_size'] = '100000'; // Max size file (KB) 
+            $config['file_ext_tolower'] = true; // Memaksa format file menjadi lowercase
+            $config['file_name'] = str_replace('.', '_', $id); // Nama file yang diupload
 
             $this->load->library('upload', $config);
 
-            if (!$this->upload->do_upload('image1')) {
-                $this->session->set_flashdata('error', $this->upload->display_errors());
+            if (!$this->upload->do_upload('image1')) { // Jika upload gagal
+                $this->session->set_flashdata('error', $this->upload->display_errors()); // Menyimpan pesan error ke session
                 echo $this->upload->display_errors();
                 // redirect('welcome/create');
             } else {
-                $filename = $this->upload->data('file_name');
-                $this->model->create($id, $filename);
-                redirect();
+                $filename = $this->upload->data('file_name'); // Menyimpan nama file ke variabel $filename
+                $this->model->create($id, $filename); // Memanggil fungsi create() pada model
+                redirect(); // Redirect ke halaman utama
             }
         }
     }
 
 	public function update($id)
     {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
+        $this->load->helper('form'); // Memanggil helper form
+        $this->load->library('form_validation'); // Untuk Validasi Form
 
-        $this->form_validation->set_rules('name', 'Name', 'required|max_length[30]');
-        $this->form_validation->set_rules('description', 'Description', 'required');
+        $this->form_validation->set_rules('name', 'Name', 'required|max_length[30]'); // Validasi Nama required dan max 30 karakter
+        $this->form_validation->set_rules('description', 'Description', 'required'); // Validasi Description required
         $this->form_validation->set_rules('image', 'Image');
 
-        if ($this->form_validation->run() === FALSE) {
-            $data['post'] = $this->model->read($id);
+        if ($this->form_validation->run() === FALSE) { // Jika validasi gagal
+            $data['post'] = $this->model->read($id); // Memanggil fungsi read() untuk menampilkan data dari id yang dipilih tersebut
             $this->load->view('header');
             $this->load->view('update',$data);
             $this->load->view('footer');
-        } else {
-
-           
-                $post = $this->model->read($id);
-
+        } else { // Jika validasi berhasil  
+            $post = $this->model->read($id);
             $config['upload_path'] = "./upload/post";
             $config['allowed_types'] = 'jpg|png|jpeg';
             $config['max_size'] = "100000";
@@ -90,8 +87,7 @@ class Welcome extends CI_Controller
 
             $this->load->library('upload', $config);
 
-
-            if (!$this->upload->do_upload('image')) {
+            if (!$this->upload->do_upload('image')) { // Jika upload gagal
                 $config['file_ext_tolower'] = TRUE;
                 $this->session->set_flashdata('error', $this->upload->display_errors());
                 $this->model->update($id);
@@ -102,7 +98,6 @@ class Welcome extends CI_Controller
                 echo "berhasil";
                redirect();
             }
-
     } 
 }
 
@@ -121,147 +116,3 @@ class Welcome extends CI_Controller
         $this->model->deleteAll();
         redirect('');
     }
-
-    public function test(){
-
-    }
-
-    public function addNasabah() {
-        $url = "http://nasabah.wika.co.id/index.php/mod_excel/post_json_to_dev";
-
-
-        $postParam = [
-            "nmnasabah" => "zzzzzz", 
-            "alamat" => "Jl. Prof. Dr. Latumenten No. 33 Season City Unit A19-20. Jakarta Barat 11320", 
-            "kota" => "KOTA JAKARTA BARAT", 
-            "email" => "office@victoryutamakarya.com", 
-            "kode_pos" => "11320", 
-            "ext" => "-", 
-            "telepon" => "02129618073", 
-            "fax" => "0", 
-            "npwp" => "7026367130330000", 
-            "nama_kontak" => "chen xioliang", 
-            "jenisperusahaan" => "lainnya", 
-            "jabatan" => "manajer procuremnet", 
-            "email1" => "sv-document@sinohydro-victory.com", 
-            "telpon1" => "081213433907", 
-            "handphone" => "081213433907", 
-            "tipe_perusahaan" => "PT", 
-            "tipe_lain_perusahaan" => "-", 
-            "cotid" => "11", 
-            "entitas" => "WG", 
-            "dtsap" => [
-                  [
-                     "devid" => "YMMI002", 
-                     "packageid" => null, 
-                     "cocode" => "A000", 
-                     "prctr" => null, 
-                     "timestamp" => "13910000", 
-                     "data" => [
-                        [
-                           "BPARTNER" => null, 
-                           "GROUPING" => "ZN02", 
-                           "LVORM" => null, 
-                           "TITLE" => "Z001", 
-                           "NAME" => null, 
-                           "TITLELETTER" => "zzzzzzz", 
-                           "SEARCHTERM1" => null, 
-                           "SEARCHTERM2" => null, 
-                           "STREET" => "Jl. Prof. Dr. Latumenten No. 33 Season City Unit A19-20. Jakarta Barat 11320", 
-                           "HOUSE_NO" => null, 
-                           "POSTL_COD1" => "11320", 
-                           "CITY" => null, 
-                           "ADDR_COUNTRY" => "ID", 
-                           "REGION" => null, 
-                           "PO_BOX" => null, 
-                           "POSTL_COD3" => null, 
-                           "LANGU" => "E", 
-                           "TELEPHONE" => "02129618073", 
-                           "PHONE_EXTENSION" => null, 
-                           "MOBPHONE" => "02129618073", 
-                           "FAX" => "0", 
-                           "FAX_EXTENSION" => null, 
-                           "E_MAIL" => "office@victoryutamakarya.com", 
-                           "VALIDFROMDATE" => "123-4-12", 
-                           "VALIDTODATE" => "123-5-12", 
-                           "IDENTIFICATION" => [
-                              [
-                                 "TAXTYPE" => null, 
-                                 "TAXNUMBER" => "702636713033000" 
-                              ] 
-                           ], 
-                           "BANK" => [
-                                    [
-                                       "BANK_DET_ID" => null, 
-                                       "BANK_CTRY" => null, 
-                                       "BANK_KEY" => null, 
-                                       "BANK_ACCT" => null, 
-                                       "BK_CTRL_KEY" => null, 
-                                       "BANK_REF" => null, 
-                                       "EXTERNALBANKID" => null, 
-                                       "ACCOUNTHOLDER" => null, 
-                                       "BANKACCOUNTNAME" => null 
-                                    ] 
-                                 ], 
-                           "CUST_BUKRS" => null, 
-                           "KUNNR" => null, 
-                           "CUST_AKONT" => "1104211000", 
-                           "CUST_C_ZTERM" => "ZC00", 
-                           "CUST_WTAX" => [
-                                          [
-                                             "WITHT" => "J7", 
-                                             "WT_AGENT" => null, 
-                                             "WT_AGTDF" => null, 
-                                             "WT_AGTDT" => null 
-                                          ] 
-                                       ], 
-                           "VKORG" => null, 
-                           "VTWEG" => null, 
-                           "SPART" => null, 
-                           "KDGRP" => "kdgrp", 
-                           "CUST_WAERS" => "IDR", 
-                           "KALKS" => null, 
-                           "VERSG" => null, 
-                           "VSBED" => null, 
-                           "INCO1" => null, 
-                           "INCO2_L" => null, 
-                           "CUST_S_ZTERM" => "ZC00", 
-                           "KTGRD" => "Z2", 
-                           "TAXKD" => null, 
-                           "VEND_BUKRS" => null, 
-                           "LIFNR" => null, 
-                           "VEND_AKONT" => null, 
-                           "VEND_C_ZTERM" => null, 
-                           "REPRF" => "X", 
-                           "VEND_WTAX" => [
-                                                [
-                                                ] 
-                                             ], 
-                           "EKORG" => null, 
-                           "VEND_P_ZTERM" => null, 
-                           "WEBRE" => null, 
-                           "VEND_WAERS" => null, 
-                           "LEBRE" => null, 
-                           "BRAN2" => "Z23" 
-                        ] 
-                     ] 
-                  ] 
-               ] 
-         ]; 
-
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postParam));
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$server_output = curl_exec($ch);
-
-echo $server_output;
-
-curl_close($ch);
- 
- 
-    }
-
-    
-}
